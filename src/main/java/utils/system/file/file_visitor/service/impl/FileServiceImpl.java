@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import utils.system.file.file_visitor.service.FileService;
 
+import java.nio.charset.MalformedInputException;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -51,7 +52,12 @@ public class FileServiceImpl implements FileService {
         @Override
         @SneakyThrows
         public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
-            List<String> lines = Files.readAllLines(file);
+            List<String> lines;
+            try {
+                lines = Files.readAllLines(file);
+            } catch (MalformedInputException e) {
+                return FileVisitResult.CONTINUE;
+            }
             for (String s: lines) {
                 if (s.contains(SEARCH_STRING)) {
                     result.add(file.toAbsolutePath().toUri().getPath());
