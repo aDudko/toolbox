@@ -1,4 +1,4 @@
-package utils.system.file.file_visitor.service;
+package utils.system.file.file_visitor;
 
 import java.util.List;
 

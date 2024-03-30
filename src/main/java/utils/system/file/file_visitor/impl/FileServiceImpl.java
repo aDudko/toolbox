@@ -1,8 +1,8 @@
-package utils.system.file.file_visitor.service.impl;
+package utils.system.file.file_visitor.impl;
 
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
-import utils.system.file.file_visitor.service.FileService;
+import utils.system.file.file_visitor.FileService;
 
 import java.nio.charset.MalformedInputException;
 import java.nio.file.FileVisitResult;
