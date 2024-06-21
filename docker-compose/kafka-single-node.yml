@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+
+  kafka:
+    image: apache/kafka:3.7.0
+    container_name: kafka
+    ports:
+      - 9092:9092
+      - 2181:2181
+    networks:
+      - kafka_network
+    volumes:
+      - kafka_data:/tmp
+    # start with zookeeper
+#    command: bash -c 'nohup ./opt/kafka/bin/zookeeper-server-start.sh ./opt/kafka/config/zookeeper.properties'
+
+
+volumes:
+  kafka_data:
+
+networks:
+  kafka_network:
+    driver: bridge

@@ -1,0 +1,82 @@
+version: '3.8'
+
+services:
+
+  rabbitmq:
+    image: rabbitmq:latest
+    container_name: rabbitmq
+    restart: always
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+      - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+    networks:
+      - metrics
+
+  zipkin:
+    image: openzipkin/zipkin:latest
+    container_name: zipkin
+    restart: always
+    ports:
+      - 9411:9411
+    environment:
+      STORAGE_TYPE: mem
+      RABBIT_URI: amqp://guest:guest@rabbitmq:5672
+    depends_on:
+      - rabbitmq
+    networks:
+      - metrics
+
+  config-server:
+    image: anatolydudko/config-server:3.2.5
+    container_name: config-server
+    ports:
+      - 8888:8888
+    environment:
+      EUREKA_SERVICE_URL: http://eureka-server:8761/eureka/
+      CONFIG_SERVER_GIT_URI: ''
+      CONFIG_SERVER_GIT_USERNAME: ''
+      CONFIG_SERVER_GIT_PASSWORD: ''
+      CONFIG_SERVER_GIT_BRANCH: ''
+    networks:
+      - cloud
+
+  eureka-server:
+    image: anatolydudko/eureka-server:3.2.5
+    container_name: eureka-server
+    ports:
+      - 8761:8761
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
+      CONFIG_SERVER_URL: http://config-server:8888
+    depends_on:
+      - config-server
+    networks:
+      - cloud
+
+  api-gateway:
+    image: anatolydudko/api-gateway:3.2.5
+    container_name: api-gateway
+    ports:
+      - 8787:8787
+    environment:
+      EUREKA_SERVICE_URL: http://eureka-server:8761/eureka/
+      RABBIT_URI: amqp://guest:guest@rabbitmq:5672
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_ZIPKIN_SENDER_TYPE: rabbit
+      ZIPKIN_URL: http://zipkin:9411/api/v2/spans
+    depends_on:
+      - rabbitmq
+      - zipkin
+      - eureka-server
+    networks:
+      - cloud
+      - metrics
+
+networks:
+  metrics:
+    driver: bridge
+  cloud:
+    driver: bridge

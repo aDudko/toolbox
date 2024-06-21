@@ -5,50 +5,47 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.adudko.utils</groupId>
-    <artifactId>${app.name}</artifactId>
-    <version>${app.versuon}</version>
+    <artifactId>toolbox</artifactId>
+    <version>0.0.2</version>
     <packaging>jar</packaging>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.2.6.RELEASE</version>
+        <version>3.3.0</version>
         <relativePath/>
     </parent>
 
     <properties>
+        <java.version>22</java.version>
+
+        <spring.version>3.3.0</spring.version>
+
+        <maven.compiler.source>22</maven.compiler.source>
+        <maven.compiler.target>22</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-        <maven.compiler.source>14</maven.compiler.source>
-        <maven.compiler.target>14</maven.compiler.target>
-        <java.version>14</java.version>
-
-        <app.name>toolbox</app.name>
-        <app.versuon>0.0.1</app.versuon>
     </properties>
 
     <dependencies>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot</artifactId>
-            <version>2.2.6.RELEASE</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <version>2.2.6.RELEASE</version>
-            <scope>test</scope>
+            <version>${spring.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.12</version>
+            <version>1.18.32</version>
             <optional>true</optional>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <version>${spring.version}</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -62,7 +59,7 @@
             <plugin>
                 <groupId>net.revelc.code.formatter</groupId>
                 <artifactId>formatter-maven-plugin</artifactId>
-                <version>2.21.0</version>
+                <version>2.24.1</version>
             </plugin>
         </plugins>
     </build>
