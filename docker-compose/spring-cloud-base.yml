@@ -36,10 +36,10 @@ services:
       - 8888:8888
     environment:
       EUREKA_SERVICE_URL: http://eureka-server:8761/eureka/
-      CONFIG_SERVER_GIT_URI: ''
+      CONFIG_SERVER_GIT_URI: https://github.com/aDudko/config-repo.git
       CONFIG_SERVER_GIT_USERNAME: ''
       CONFIG_SERVER_GIT_PASSWORD: ''
-      CONFIG_SERVER_GIT_BRANCH: ''
+      CONFIG_SERVER_GIT_BRANCH: master
     networks:
       - cloud
 
