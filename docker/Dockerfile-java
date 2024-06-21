@@ -1,0 +1,12 @@
+FROM maven:3.9 AS build
+COPY src src
+COPY pom.xml pom.xml
+RUN mvn clean package -Dmaven.test.skip
+
+FROM openjdk:20-ea-4-jdk
+LABEL autors="Dudko Anatoly"
+MAINTAINER "anatoly_dudko@icloud.com"
+WORKDIR /app
+COPY --from=build target/app_name-*.jar app_name.jar
+EXPOSE 8080
+CMD ["java", "-jar", "./app_name.jar"]
